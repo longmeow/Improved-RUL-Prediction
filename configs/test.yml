@@ -1,0 +1,15 @@
+batch_size: 128
+d_model: 23
+dff: 128
+dropout: 0.1
+experiment: 2stacks_1nhead_120lwin_0_001lr_128dff_128batch_40epcs_0_1dropout
+kernel_size: 8
+l_win: 120
+l_win_max: 31
+lr: 0.001
+model: 2
+n_epochs: 140
+n_head: 1
+num_layers: 2
+num_workers: 4
+weight_decay: 0.001
