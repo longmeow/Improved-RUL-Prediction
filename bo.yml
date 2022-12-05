@@ -17,16 +17,16 @@ parameters:
         max: 0.15
     l_win:
         distribution: int_uniform
-        min: 120
+        min: 115
         max: 125
     lr: 
         distribution: log_uniform
-        min: -6.5
+        min: -7.5
         max: -5.5
     n_epochs: 
         distribution: int_uniform
         min: 60
-        max: 100
+        max: 120
     n_head: 
         values: [1, 23]
     num_layers: 
@@ -35,11 +35,11 @@ parameters:
         max: 3
     kernel_size: 
         distribution: int_uniform
-        min: 6
-        max: 8
+        min: 3
+        max: 7
     weight_decay:
         distribution: log_uniform
-        min: -6
-        max: -4  
+        min: -7
+        max: -6
     num_workers: 
         values: [2]

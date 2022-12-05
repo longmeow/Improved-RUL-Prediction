@@ -25,7 +25,7 @@ class TimeSeriesDataset(Dataset):
 
     def load_dataset(self, config):
         if self.mode == 'train':
-            train_df = pd.read_csv("/home/quanhhh/Documents/Improve-RUL-Prediction/preprocessed_data/train_002.csv")
+            train_df = pd.read_csv("./preprocessed_data/train_004.csv")
 
             def gen_sequence(id_df, seq_length, seq_cols):
                 data_array = id_df[seq_cols].values
@@ -53,31 +53,31 @@ class TimeSeriesDataset(Dataset):
             # ]
             # sequence_cols = ["setting1", "setting2"]
 
-            #FD002
+            # FD002
 
-            sensor_cols = [
-                "s1",
-                "s2",
-                "s3",
-                "s4",
-                "s5",
-                "s7",
-                "s8",
-                "s9",
-                "s10",
-                "s11",
-                "s12",
-                "s13",
-                "s14",
-                "s15",
-                "s16",
-                "s17",
-                "s18",
-                "s19",
-                "s20",
-                "s21",
-            ]
-            sequence_cols = ["setting1", "setting2", "setting3"]
+            # sensor_cols = [
+            #     "s1",
+            #     "s2",
+            #     "s3",
+            #     "s4",
+            #     "s5",
+            #     "s7",
+            #     "s8",
+            #     "s9",
+            #     "s10",
+            #     "s11",
+            #     "s12",
+            #     "s13",
+            #     "s14",
+            #     "s15",
+            #     "s16",
+            #     "s17",
+            #     "s18",
+            #     "s19",
+            #     "s20",
+            #     "s21",
+            # ]
+            # sequence_cols = ["setting1", "setting2", "setting3"]
             
             # #FD003
             # sensor_cols = [
@@ -102,29 +102,29 @@ class TimeSeriesDataset(Dataset):
 
             # #FD004
   
-            # sensor_cols = [
-            #     "s1",
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s5",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s16",
-            #     "s17",
-            #     "s18",
-            #     "s19",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2", "setting3"]
+            sensor_cols = [
+                "s1",
+                "s2",
+                "s3",
+                "s4",
+                "s5",
+                "s7",
+                "s8",
+                "s9",
+                "s10",
+                "s11",
+                "s12",
+                "s13",
+                "s14",
+                "s15",
+                "s16",
+                "s17",
+                "s18",
+                "s19",
+                "s20",
+                "s21",
+            ]
+            sequence_cols = ["setting1", "setting2", "setting3"]
             
 
             sequence_cols.extend(sensor_cols)
@@ -150,7 +150,7 @@ class TimeSeriesDataset(Dataset):
             self.label = label_array
 
         else:
-            test_df = pd.read_csv("/home/quanhhh/Documents/Improve-RUL-Prediction/preprocessed_data/test_002.csv")
+            test_df = pd.read_csv("./preprocessed_data/test_004.csv")
             
             #  #FD001
 
@@ -173,54 +173,6 @@ class TimeSeriesDataset(Dataset):
             # sequence_cols = ["setting1", "setting2"]
 
             #FD002
-
-            sensor_cols = [
-                "s1",
-                "s2",
-                "s3",
-                "s4",
-                "s5",
-                "s7",
-                "s8",
-                "s9",
-                "s10",
-                "s11",
-                "s12",
-                "s13",
-                "s14",
-                "s15",
-                "s16",
-                "s17",
-                "s18",
-                "s19",
-                "s20",
-                "s21",
-            ]
-            sequence_cols = ["setting1", "setting2", "setting3"]
-            
-            # #FD003
-
-            # sensor_cols = [
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s6",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s17",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2"]
-
-            # #FD004
 
             # sensor_cols = [
             #     "s1",
@@ -245,6 +197,54 @@ class TimeSeriesDataset(Dataset):
             #     "s21",
             # ]
             # sequence_cols = ["setting1", "setting2", "setting3"]
+            
+            # # #FD003
+
+            # sensor_cols = [
+            #     "s2",
+            #     "s3",
+            #     "s4",
+            #     "s6",
+            #     "s7",
+            #     "s8",
+            #     "s9",
+            #     "s10",
+            #     "s11",
+            #     "s12",
+            #     "s13",
+            #     "s14",
+            #     "s15",
+            #     "s17",
+            #     "s20",
+            #     "s21",
+            # ]
+            # sequence_cols = ["setting1", "setting2"]
+
+            # #FD004
+
+            sensor_cols = [
+                "s1",
+                "s2",
+                "s3",
+                "s4",
+                "s5",
+                "s7",
+                "s8",
+                "s9",
+                "s10",
+                "s11",
+                "s12",
+                "s13",
+                "s14",
+                "s15",
+                "s16",
+                "s17",
+                "s18",
+                "s19",
+                "s20",
+                "s21",
+            ]
+            sequence_cols = ["setting1", "setting2", "setting3"]
             
             sequence_cols.extend(sensor_cols)
 

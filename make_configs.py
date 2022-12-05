@@ -5,17 +5,17 @@ import itertools
 
 def main():
     params = {
-        "l_win": [120],
-        "batch_size": [128],
-        "num_workers": [4],
-        "n_head": [1, 2, 4, 8],
+        "l_win": [115, 117, 120, 123, 125],
+        "batch_size": [64, 128],
+        "num_workers": [2],
+        "n_head": [23],
         "dff": [128, 256],
         "num_layers": [2, 3, 4],
-        "lr": [0.001, 0.0005],
-        "weight_decay": [0.0005, 0.0003, 0.001],
-        "n_epochs": [40, 100, 140, 300],
+        "lr": [0.001],
+        "weight_decay": [0.0005],
+        "n_epochs": [2],
         "dropout": [0.1],
-        "kernel_size": [6, 7, 8],
+        "kernel_size": [3, 5, 7],
     }
 
     keys, values = zip(*params.items())
@@ -37,13 +37,12 @@ def main():
         config_path = os.path.join("configs/", "{}.yml".format(filename))
         config = {
             "experiment": filename,
-            "l_win_max": 31,
-            #"d_model": 16, ##FD001 
-            "d_model": 23, ##FD002
+            # "d_model": 16, ##FD001 
+            # "d_model": 23, ##FD002
             # "d_model": 18, ##FD003
-            # "d_model": 23, ##FD004 
-	    #"model": 1, #denote Transformer
-	    "model": 2, #denote hybrid model
+            "d_model": 23, ##FD004 
+	    "model": 1, #denote Transformer
+	    #"model": 2, #denote hybrid model
         }
         config.update(comb)
         print(filename)

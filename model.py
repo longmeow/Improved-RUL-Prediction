@@ -257,7 +257,7 @@ def create_transformer(N , d_model, l_win, device, kernel_size, d_ff=0, h=8, dro
     ff = PositionwiseFeedForward(d_model, d_ff, dropout)
     position = PositionalEncoding(d_model, dropout, l_win)
     final_linear = nn.Sequential(
-        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * (l_win-1), 1)
+        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * l_win, 1)
     )
     model = TransformerModel(
         TransformerEncoder(TransformerEncoderLayer(
@@ -282,7 +282,7 @@ def create_fnet_hybrid(N, d_model, l_win, device, kernel_size, d_ff=0, h=8, drop
     ff = PositionwiseFeedForward(d_model, d_ff, dropout)
     position = PositionalEncoding(d_model, dropout, l_win)
     final_linear = nn.Sequential(
-        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * (l_win-1), 1)
+        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * l_win, 1)
     )
     fft = FourierFFTLayer()
     model = FNetHybridModel(
