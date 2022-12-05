@@ -25,109 +25,112 @@ class TimeSeriesDataset(Dataset):
 
     def load_dataset(self, config):
         if self.mode == 'train':
-            train_df = pd.read_csv("./preprocessed_data/train_004.csv")
+            if self.config['dataset'] == 1:
+                train_df = pd.read_csv("./preprocessed_data/train_001.csv")
+                #FD001
+                sensor_cols = [
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s17",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2"]
+
+            if self.config['dataset'] == 2:
+                train_df = pd.read_csv("./preprocessed_data/train_002.csv")  
+                # FD002
+                sensor_cols = [
+                    "s1",
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s5",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s16",
+                    "s17",
+                    "s18",
+                    "s19",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2", "setting3"]
+                
+            if self.config['dataset'] == 3:
+                train_df = pd.read_csv("./preprocessed_data/train_003.csv")  
+                #FD003
+                sensor_cols = [
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s6",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s17",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2"]
+                
+            if self.config['dataset'] == 4:
+                train_df = pd.read_csv("./preprocessed_data/train_004.csv")  
+                #FD004
+                sensor_cols = [
+                    "s1",
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s5",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s16",
+                    "s17",
+                    "s18",
+                    "s19",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2", "setting3"]
+                
+            sequence_cols.extend(sensor_cols)
 
             def gen_sequence(id_df, seq_length, seq_cols):
                 data_array = id_df[seq_cols].values
                 num_elements = data_array.shape[0]
                 for start, stop in zip(range(0, num_elements-seq_length), range(seq_length, num_elements)):
                     yield data_array[start:stop, :]
-            
-            
-            # #FD001
-            # sensor_cols = [
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s17",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2"]
-
-            # FD002
-
-            # sensor_cols = [
-            #     "s1",
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s5",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s16",
-            #     "s17",
-            #     "s18",
-            #     "s19",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2", "setting3"]
-            
-            # #FD003
-            # sensor_cols = [
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s6",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s17",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2"]
-
-            # #FD004
-  
-            sensor_cols = [
-                "s1",
-                "s2",
-                "s3",
-                "s4",
-                "s5",
-                "s7",
-                "s8",
-                "s9",
-                "s10",
-                "s11",
-                "s12",
-                "s13",
-                "s14",
-                "s15",
-                "s16",
-                "s17",
-                "s18",
-                "s19",
-                "s20",
-                "s21",
-            ]
-            sequence_cols = ["setting1", "setting2", "setting3"]
-            
-
-            sequence_cols.extend(sensor_cols)
+                    
             # generator for the sequences
             seq_gen = (list(gen_sequence(train_df[train_df['id']==id], self.config['l_win'], sequence_cols)) 
                       for id in train_df['id'].unique())
@@ -150,101 +153,103 @@ class TimeSeriesDataset(Dataset):
             self.label = label_array
 
         else:
-            test_df = pd.read_csv("./preprocessed_data/test_004.csv")
-            
-            #  #FD001
+            if self.config['dataset'] == 1:
+                test_df = pd.read_csv("./preprocessed_data/test_001.csv")
+                #FD001
+                sensor_cols = [
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s17",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2"]
 
-            # sensor_cols = [
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s17",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2"]
-
-            #FD002
-
-            # sensor_cols = [
-            #     "s1",
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s5",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s16",
-            #     "s17",
-            #     "s18",
-            #     "s19",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2", "setting3"]
-            
-            # # #FD003
-
-            # sensor_cols = [
-            #     "s2",
-            #     "s3",
-            #     "s4",
-            #     "s6",
-            #     "s7",
-            #     "s8",
-            #     "s9",
-            #     "s10",
-            #     "s11",
-            #     "s12",
-            #     "s13",
-            #     "s14",
-            #     "s15",
-            #     "s17",
-            #     "s20",
-            #     "s21",
-            # ]
-            # sequence_cols = ["setting1", "setting2"]
-
-            # #FD004
-
-            sensor_cols = [
-                "s1",
-                "s2",
-                "s3",
-                "s4",
-                "s5",
-                "s7",
-                "s8",
-                "s9",
-                "s10",
-                "s11",
-                "s12",
-                "s13",
-                "s14",
-                "s15",
-                "s16",
-                "s17",
-                "s18",
-                "s19",
-                "s20",
-                "s21",
-            ]
-            sequence_cols = ["setting1", "setting2", "setting3"]
+            if self.config['dataset'] == 2:
+                test_df = pd.read_csv("./preprocessed_data/test_002.csv")  
+                # FD002
+                sensor_cols = [
+                    "s1",
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s5",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s16",
+                    "s17",
+                    "s18",
+                    "s19",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2", "setting3"]
+                
+            if self.config['dataset'] == 3:
+                test_df = pd.read_csv("./preprocessed_data/test_003.csv")  
+                #FD003
+                sensor_cols = [
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s6",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s17",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2"]
+                
+            if self.config['dataset'] == 4:
+                test_df = pd.read_csv("./preprocessed_data/test_004.csv")  
+                #FD004
+                sensor_cols = [
+                    "s1",
+                    "s2",
+                    "s3",
+                    "s4",
+                    "s5",
+                    "s7",
+                    "s8",
+                    "s9",
+                    "s10",
+                    "s11",
+                    "s12",
+                    "s13",
+                    "s14",
+                    "s15",
+                    "s16",
+                    "s17",
+                    "s18",
+                    "s19",
+                    "s20",
+                    "s21",
+                ]
+                sequence_cols = ["setting1", "setting2", "setting3"]
             
             sequence_cols.extend(sensor_cols)
 

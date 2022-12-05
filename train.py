@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 
 from dataloader import TimeSeriesDataset
 from trainer import ModelTrainer
-from model import create_transformer, create_fnet_hybrid
+from model import create_transformer_kernel_odd, create_transformer_kernel_even, create_fnet_hybrid_kernel_odd, create_fnet_hybrid_kernel_even
 from utils import save_config, get_args, create_dirs, process_config
 
 torch.manual_seed(42)
@@ -35,23 +35,46 @@ def main():
                               num_workers=config['num_workers'])
 
     if config['model'] == 1:
-        model = create_transformer(N=config['num_layers'],
-                                        d_model=config['d_model'],
-                                        l_win=config['l_win'],
-                                        device=None,
-                                        kernel_size=config['kernel_size'],
-                                        d_ff=config['dff'],
-                                        h=config['n_head'],
-                                        dropout=config['dropout'])
+        if (config['kernel_size'] % 2 == 0): 
+            model = create_transformer_kernel_even(N=config['num_layers'],
+                                            d_model=config['d_model'],
+                                            l_win=config['l_win'],
+                                            device=None,
+                                            kernel_size=config['kernel_size'],
+                                            d_ff=config['dff'],
+                                            h=config['n_head'],
+                                            dropout=config['dropout'])
+            
+        else:
+            model = create_transformer_kernel_odd(N=config['num_layers'],
+                                            d_model=config['d_model'],
+                                            l_win=config['l_win'],
+                                            device=None,
+                                            kernel_size=config['kernel_size'],
+                                            d_ff=config['dff'],
+                                            h=config['n_head'],
+                                            dropout=config['dropout'])
+            
     if config['model'] == 2:
-        model = create_fnet_hybrid(N=config['num_layers'],
-                                        d_model=config['d_model'],
-                                        l_win=config['l_win'],
-                                        device=None,
-                                        kernel_size=config['kernel_size'],
-                                        d_ff=config['dff'],
-                                        h=config['n_head'],
-                                        dropout=config['dropout'])
+        if (config['kernel_size'] % 2 == 0): 
+            model = create_fnet_hybrid_kernel_even(N=config['num_layers'],
+                                            d_model=config['d_model'],
+                                            l_win=config['l_win'],
+                                            device=None,
+                                            kernel_size=config['kernel_size'],
+                                            d_ff=config['dff'],
+                                            h=config['n_head'],
+                                            dropout=config['dropout'])
+            
+        else:
+            model = create_fnet_hybrid_kernel_odd(N=config['num_layers'],
+                                            d_model=config['d_model'],
+                                            l_win=config['l_win'],
+                                            device=None,
+                                            kernel_size=config['kernel_size'],
+                                            d_ff=config['dff'],
+                                            h=config['n_head'],
+                                            dropout=config['dropout'])
 
     optimizer = torch.optim.Adam(model.parameters(), lr=config["lr"], weight_decay=config['weight_decay'])
     criterion = nn.MSELoss()

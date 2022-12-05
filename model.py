@@ -248,7 +248,32 @@ class FourierFFTLayer(nn.Module):
         return torch.real(torch.fft.fft(torch.fft.fft(x, dim=-1), dim=-2))
 
 
-def create_transformer(N , d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
+def create_transformer_kernel_even(N , d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
+    if (d_ff == 0):
+        d_ff = d_model * 4
+    c = copy.deepcopy
+    conv = ConvLayer(d_model, kernel_size)
+    attn = MultiHeadAttention(h, d_model, device, dropout)
+    ff = PositionwiseFeedForward(d_model, d_ff, dropout)
+    position = PositionalEncoding(d_model, dropout, l_win)
+    final_linear = nn.Sequential(
+        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * (l_win-1), 1)
+    )
+    model = TransformerModel(
+        TransformerEncoder(TransformerEncoderLayer(
+            d_model, c(attn), c(ff), dropout), N),
+        nn.Sequential(position),
+        final_linear,
+        conv
+    )
+
+    for p in model.parameters():
+        if p.dim() > 1:
+            nn.init.xavier_uniform_(p)
+    return model
+
+
+def create_transformer_kernel_odd(N , d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
     if (d_ff == 0):
         d_ff = d_model * 4
     c = copy.deepcopy
@@ -273,7 +298,34 @@ def create_transformer(N , d_model, l_win, device, kernel_size, d_ff=0, h=8, dro
     return model
 
 
-def create_fnet_hybrid(N, d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
+def create_fnet_hybrid_kernel_even(N, d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
+    if (d_ff == 0):
+        d_ff = d_model * 4
+    c = copy.deepcopy
+    conv = ConvLayer(d_model, kernel_size)
+    attn = MultiHeadAttention(h, d_model, device, dropout)
+    ff = PositionwiseFeedForward(d_model, d_ff, dropout)
+    position = PositionalEncoding(d_model, dropout, l_win)
+    final_linear = nn.Sequential(
+        nn.Flatten(), nn.Dropout(dropout), nn.Linear(d_model * (l_win-1), 1)
+    )
+    fft = FourierFFTLayer()
+    model = FNetHybridModel(
+        TransformerEncoder(TransformerEncoderLayer(
+            d_model, c(attn), c(ff), dropout), 1),
+        nn.Sequential(position),
+        final_linear,
+        FNetEncoder(FNetEncoderLayer(d_model, c(fft), c(ff), dropout), N - 1), 
+        conv
+    )
+
+    for p in model.parameters():
+        if p.dim() > 1:
+            nn.init.xavier_uniform_(p)
+    return model
+
+
+def create_fnet_hybrid_kernel_odd(N, d_model, l_win, device, kernel_size, d_ff=0, h=8, dropout=0.1):
     if (d_ff == 0):
         d_ff = d_model * 4
     c = copy.deepcopy
@@ -298,4 +350,3 @@ def create_fnet_hybrid(N, d_model, l_win, device, kernel_size, d_ff=0, h=8, drop
         if p.dim() > 1:
             nn.init.xavier_uniform_(p)
     return model
-

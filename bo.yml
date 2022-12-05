@@ -3,12 +3,14 @@ metric:
     goal: minimize
     name: test_loss_avg
 parameters:
+    dataset:
+        value: 4
+    d_model:
+        value: 23 #1:16 - 2:23 - 3:18 - 4:23
     model:
         value: 2
     batch_size:
         values: [64]
-    d_model:
-        value: 23
     dff:
         values: [128, 256]
     dropout:
